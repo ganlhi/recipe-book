@@ -4,12 +4,16 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack --port=4321",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint"
   },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
   "dependencies": {
     "@clerk/nextjs": "^6.15.1",
+    "@prisma/client": "^6.6.0",
     "@tailwindcss/typography": "^0.5.16",
     "bootstrap-icons": "^1.11.3",
     "daisyui": "^5.0.23",
@@ -19,16 +23,20 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",
+    "@faker-js/faker": "^9.7.0",
     "@svgr/webpack": "^8.1.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "clsx": "^2.1.1",
     "eslint": "^9.24.0",
     "eslint-config-next": "15.3.0",
     "eslint-config-prettier": "^10.1.2",
     "prettier": "^3.5.3",
+    "prisma": "^6.6.0",
     "tailwindcss": "^4",
+    "tsx": "^4.19.3",
     "typescript": "^5"
   }
 }
