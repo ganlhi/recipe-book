@@ -1,15 +1,12 @@
 import { isRecipesListFilters, RecipesListFilters, SearchParams } from '@/lib/types';
 
-const EMPTY_FILTERS: RecipesListFilters = { name: '', ingredients: [] };
+export const EMPTY_FILTERS: RecipesListFilters = { name: '', ingredients: [] };
 
-export async function getRecipesListFilters(
-  searchParams: Promise<SearchParams>,
-): Promise<RecipesListFilters> {
-  const sp = await searchParams;
+export function getRecipesListFilters(searchParams: SearchParams): RecipesListFilters {
   try {
-    if (typeof sp.filters !== 'string') return EMPTY_FILTERS;
+    if (typeof searchParams.filters !== 'string') return EMPTY_FILTERS;
 
-    const filters = JSON.parse(decodeURIComponent(sp.filters));
+    const filters = JSON.parse(decodeURIComponent(searchParams.filters));
     if (!isRecipesListFilters(filters)) return EMPTY_FILTERS;
 
     return filters;
@@ -19,12 +16,12 @@ export async function getRecipesListFilters(
   }
 }
 
-export async function setInSearchParams(
-  currentSearchParams: Promise<SearchParams>,
+export function setInSearchParams(
+  currentSearchParams: SearchParams,
   overrides: SearchParams,
-): Promise<SearchParams> {
+): SearchParams {
   return {
-    ...(await currentSearchParams),
+    ...currentSearchParams,
     ...overrides,
   };
 }
@@ -39,9 +36,9 @@ export function searchParamsAsString(searchParams: SearchParams): string {
     .join('&');
 }
 
-export async function updateQueryString(
-  currentSearchParams: Promise<SearchParams>,
+export function updateQueryString(
+  currentSearchParams: SearchParams,
   overrides: SearchParams,
-): Promise<string> {
-  return searchParamsAsString(await setInSearchParams(currentSearchParams, overrides));
+): string {
+  return searchParamsAsString(setInSearchParams(currentSearchParams, overrides));
 }

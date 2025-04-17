@@ -5,10 +5,19 @@ import { RecipesListViewMode, SearchParams } from '@/lib/types';
 import { getRecipesListFilters, updateQueryString } from '@/lib/utils';
 import { clsx } from 'clsx';
 import Link from 'next/link';
+import { Filters } from '@/app/components/Filters';
+import prisma from '@/lib/prisma';
 
-export default async function Home({ searchParams }: { searchParams: Promise<SearchParams> }) {
-  const filters = await getRecipesListFilters(searchParams);
-  const viewMode: RecipesListViewMode = (await searchParams).view === 'table' ? 'table' : 'grid';
+export default async function Home(props: { searchParams: Promise<SearchParams> }) {
+  const searchParams = await props.searchParams;
+  const filters = getRecipesListFilters(searchParams);
+  const viewMode: RecipesListViewMode = searchParams.view === 'table' ? 'table' : 'grid';
+
+  const filterableIngredients = (
+    await prisma.filterableIngredient.findMany({
+      orderBy: { name: 'asc' },
+    })
+  ).map((i) => i.name);
 
   return (
     <>
@@ -16,9 +25,11 @@ export default async function Home({ searchParams }: { searchParams: Promise<Sea
         <h1>Recettes</h1>
       </header>
 
+      <Filters filters={filters} viewMode={viewMode} availableIngredients={filterableIngredients} />
+
       <Link
-        href={`?${await updateQueryString(searchParams, { view: viewMode === 'grid' ? 'table' : 'grid' })}`}
-        className="block my-4"
+        href={`?${updateQueryString(searchParams, { view: viewMode === 'grid' ? 'table' : 'grid' })}`}
+        className="block mb-4"
       >
         <label className={clsx('swap swap-rotate', { 'swap-active': viewMode === 'table' })}>
           <span className="swap-on">
