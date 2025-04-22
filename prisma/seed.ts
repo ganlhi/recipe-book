@@ -1,7 +1,6 @@
 import { faker } from '@faker-js/faker';
-import { PrismaClient } from '@/app/generated/prisma';
+import prisma from '@/lib/prisma';
 
-const prisma = new PrismaClient();
 async function main() {
   const existingRecipeNames = (await prisma.recipe.findMany({ select: { name: true } })).map(
     (r) => r.name,
@@ -45,6 +44,23 @@ async function main() {
         name,
       },
     });
+
+  // Add md content
+  await prisma.recipe.update({
+    where: { name: 'Test' },
+    data: {
+      content: `
+## Foo Bar Baz
+
+${faker.lorem.paragraphs(2)}    
+
+- dfascfvv v dsvs d
+- vsd sdv dsvv s
+
+[learn more](http://google.com)  
+      `,
+    },
+  });
 }
 main()
   .then(async () => {
