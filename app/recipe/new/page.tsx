@@ -2,6 +2,8 @@ import Link from 'next/link';
 import IconBack from 'bootstrap-icons/icons/arrow-left-short.svg';
 import { RecipeForm } from '@/app/recipe/form';
 
+export const dynamic = 'force-dynamic';
+
 export default async function RecipeCreatePage() {
   return (
     <div className="flex flex-col items-stretch">
