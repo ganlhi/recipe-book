@@ -7,6 +7,7 @@ import { clsx } from 'clsx';
 import Link from 'next/link';
 import { Filters } from '@/app/components/Filters';
 import prisma from '@/lib/prisma';
+import IconPlus from 'bootstrap-icons/icons/plus.svg';
 
 export default async function Home(props: { searchParams: Promise<SearchParams> }) {
   const searchParams = await props.searchParams;
@@ -27,22 +28,30 @@ export default async function Home(props: { searchParams: Promise<SearchParams> 
 
       <Filters filters={filters} viewMode={viewMode} availableIngredients={filterableIngredients} />
 
-      <Link
-        href={`?${updateQueryString(searchParams, { view: viewMode === 'grid' ? 'table' : 'grid' })}`}
-        className="block mb-4"
-      >
-        <label className={clsx('swap swap-rotate', { 'swap-active': viewMode === 'table' })}>
-          <span className="swap-on">
-            <IconTable />
-          </span>
-          <span className="swap-off">
-            <IconGrid />
-          </span>
-          <span className="block h-0 w-0 overflow-hidden">Bascule vue grille/table</span>
-        </label>
-      </Link>
-
-      <RecipesList filters={filters} viewMode={viewMode} />
+      <div className="m-auto w-max flex flex-col gap-4">
+        <div className="flex justify-between items-center">
+          <Link
+            href={`?${updateQueryString(searchParams, { view: viewMode === 'grid' ? 'table' : 'grid' })}`}
+            className="block"
+          >
+            <label className={clsx('swap swap-rotate', { 'swap-active': viewMode === 'table' })}>
+              <span className="swap-on">
+                <IconTable />
+              </span>
+              <span className="swap-off">
+                <IconGrid />
+              </span>
+              <span className="block h-0 w-0 overflow-hidden">Bascule vue grille/table</span>
+            </label>
+          </Link>
+          <Link href="/recipe/new" className="btn btn-sm">
+            <IconPlus /> Ajouter une recette
+          </Link>
+        </div>
+        <div className="max-w-5xl">
+          <RecipesList filters={filters} viewMode={viewMode} />
+        </div>
+      </div>
     </>
   );
 }

@@ -31,9 +31,9 @@ export async function RecipesList({
   });
 
   return viewMode === 'grid' ? (
-    <div className="flex flex-wrap gap-4 ">
+    <div className="grid grid-cols-3 gap-4">
       {recipes.map((recipe) => (
-        <div className="card w-80 bg-base-200 shadow" key={recipe.id}>
+        <div className="card bg-base-200 shadow" key={recipe.id}>
           <div className="card-body">
             <div className="flex justify-between">
               <h2 className="text-xl font-bold">{recipe.name}</h2>
@@ -60,7 +60,7 @@ export async function RecipesList({
       ))}
     </div>
   ) : (
-    <div className="overflow-x-auto ">
+    <div className="overflow-x-auto w-full">
       <table className="table">
         <thead>
           <tr>

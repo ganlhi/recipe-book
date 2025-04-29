@@ -2,7 +2,7 @@ import prisma from '@/lib/prisma';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import IconBack from 'bootstrap-icons/icons/arrow-left-short.svg';
-import { RecipeForm } from '@/app/recipe/[id]/edit/form';
+import { RecipeForm } from '@/app/recipe/form';
 
 type RecipeEditPageParams = { id: string };
 

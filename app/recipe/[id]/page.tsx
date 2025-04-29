@@ -10,6 +10,7 @@ import IconMinus from 'bootstrap-icons/icons/dash.svg';
 import { SignedIn } from '@clerk/nextjs';
 import { SearchParams } from '@/lib/types';
 import { getFromSearchParams, updateQueryString } from '@/lib/utils';
+import { ToggleFilterableButton } from '@/app/components/ToggleFilterableButton';
 
 type RecipePageParams = { id: string };
 
@@ -26,6 +27,12 @@ export default async function RecipePage({
   if (!recipe) {
     notFound();
   }
+
+  const filterableIngredients = (
+    await prisma.filterableIngredient.findMany({
+      where: { name: { in: recipe.ingredients.map((i) => i.name) } },
+    })
+  ).map((fi) => fi.name);
 
   const nbPersons = getFromSearchParams(await searchParams, 'persons', recipe.persons);
   const quantitiesMult = nbPersons / recipe.persons;
@@ -83,13 +90,19 @@ export default async function RecipePage({
 
         <div className="bg-base-100 rounded-box shadow w-max">
           <h2 className="p-4 mb-0!">Ingrédients</h2>
-          <ul className="list">
+          <ul className="list min-w-md">
             {recipe.ingredients.map((ingredient) => (
-              <li key={ingredient.id} className="list-row justify-between flex gap-24">
-                <div>{ingredient.name}</div>
+              <li key={ingredient.id} className="list-row items-center py-2 mb-0">
+                <div className="list-col-grow">{ingredient.name}</div>
                 <div>
                   {Number((ingredient.amount * quantitiesMult).toFixed(2))} {ingredient.unit}
                 </div>
+                <SignedIn>
+                  <ToggleFilterableButton
+                    ingredient={ingredient.name}
+                    isFilterable={filterableIngredients.includes(ingredient.name)}
+                  />
+                </SignedIn>
               </li>
             ))}
           </ul>

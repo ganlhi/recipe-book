@@ -1,12 +1,32 @@
 'use client';
 
-import { Ingredient, Recipe } from '@/app/generated/prisma';
+import { Ingredient } from '@/app/generated/prisma';
 import { useState } from 'react';
 import IconPlus from 'bootstrap-icons/icons/plus.svg';
 import { updateRecipe } from '@/app/actions';
+import { RecipeFormPayload } from '@/lib/types';
 
-export function RecipeForm({ recipe }: { recipe: Recipe & { ingredients: Ingredient[] } }) {
-  const [value, setValue] = useState(recipe);
+const EMPTY_RECIPE: RecipeFormPayload = {
+  name: '',
+  content: '',
+  ingredients: [],
+  persons: 1,
+  timeCook: 0,
+  timePrep: 0,
+};
+
+function isValid(value: RecipeFormPayload) {
+  return (
+    !!value.name &&
+    value.persons >= 1 &&
+    value.timePrep >= 0 &&
+    value.timeCook >= 0 &&
+    value.ingredients.every((i) => !!i.name)
+  );
+}
+
+export function RecipeForm({ recipe }: { recipe?: RecipeFormPayload }) {
+  const [value, setValue] = useState(recipe ?? EMPTY_RECIPE);
 
   return (
     <form
@@ -19,6 +39,7 @@ export function RecipeForm({ recipe }: { recipe: Recipe & { ingredients: Ingredi
           className="input w-full"
           type="text"
           name="name"
+          required
           value={value.name}
           onChange={(e) => setValue((v) => ({ ...v, name: e.target.value }))}
         />
@@ -142,7 +163,7 @@ export function RecipeForm({ recipe }: { recipe: Recipe & { ingredients: Ingredi
         ></textarea>
       </fieldset>
 
-      <button className="btn self-end" type="submit">
+      <button className="btn self-end" type="submit" disabled={!isValid(value)}>
         Enregistrer les modifications
       </button>
     </form>
