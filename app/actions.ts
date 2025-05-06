@@ -49,6 +49,10 @@ export async function updateRecipe(recipe: RecipeFormPayload) {
   }
 }
 
+export async function deleteRecipe(recipeId: string) {
+  await prisma.recipe.delete({ include: { ingredients: true }, where: { id: recipeId } });
+}
+
 export async function toggleFilterableIngredient(ingredient: string) {
   const existing = await prisma.filterableIngredient.count({ where: { name: ingredient } });
   if (existing > 0) {

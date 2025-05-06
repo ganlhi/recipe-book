@@ -11,6 +11,7 @@ import { SignedIn } from '@clerk/nextjs';
 import { SearchParams } from '@/lib/types';
 import { getFromSearchParams, updateQueryString } from '@/lib/utils';
 import { ToggleFilterableButton } from '@/app/components/ToggleFilterableButton';
+import { DeleteButton } from '@/app/components/DeleteButton';
 
 type RecipePageParams = { id: string };
 
@@ -47,9 +48,12 @@ export default async function RecipePage({
         </Link>
 
         <SignedIn>
-          <Link href={`/recipe/${id}/edit`} className="btn">
-            <IconPencil /> Modifier
-          </Link>
+          <div className="flex gap-2">
+            <DeleteButton recipeId={id} />
+            <Link href={`/recipe/${id}/edit`} className="btn">
+              <IconPencil /> Modifier
+            </Link>
+          </div>
         </SignedIn>
       </nav>
       <article className="prose m-auto max-w-2xl">
