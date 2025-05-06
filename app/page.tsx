@@ -1,5 +1,6 @@
 import IconGrid from 'bootstrap-icons/icons/grid.svg';
 import IconTable from 'bootstrap-icons/icons/table.svg';
+import IconPlus from 'bootstrap-icons/icons/plus.svg';
 import { RecipesList } from '@/app/components/RecipesList';
 import { RecipesListViewMode, SearchParams } from '@/lib/types';
 import { getRecipesListFilters, updateQueryString } from '@/lib/utils';
@@ -7,7 +8,6 @@ import { clsx } from 'clsx';
 import Link from 'next/link';
 import { Filters } from '@/app/components/Filters';
 import prisma from '@/lib/prisma';
-import IconPlus from 'bootstrap-icons/icons/plus.svg';
 
 export default async function Home(props: { searchParams: Promise<SearchParams> }) {
   const searchParams = await props.searchParams;
