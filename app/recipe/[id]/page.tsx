@@ -4,6 +4,7 @@ import { remark } from 'remark';
 import html from 'remark-html';
 import Link from 'next/link';
 import IconBack from 'bootstrap-icons/icons/arrow-left-short.svg';
+import IconBook from 'bootstrap-icons/icons/book.svg';
 import IconPencil from 'bootstrap-icons/icons/pencil.svg';
 import IconPlus from 'bootstrap-icons/icons/plus.svg';
 import IconMinus from 'bootstrap-icons/icons/dash.svg';
@@ -113,6 +114,17 @@ export default async function RecipePage({
         </div>
 
         <section dangerouslySetInnerHTML={{ __html: content.toString() }} />
+
+        {recipe.source && (
+          <div role="alert" className="alert alert-soft">
+            <IconBook />
+            {recipe.source.startsWith('http://') || recipe.source.startsWith('https://') ? (
+              <a href={recipe.source}>{recipe.source}</a>
+            ) : (
+              <span>{recipe.source}</span>
+            )}
+          </div>
+        )}
       </article>
     </div>
   );

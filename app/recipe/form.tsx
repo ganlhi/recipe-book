@@ -13,6 +13,7 @@ const EMPTY_RECIPE: RecipeFormPayload = {
   persons: 1,
   timeCook: 0,
   timePrep: 0,
+  source: '',
 };
 
 function isValid(value: RecipeFormPayload) {
@@ -161,6 +162,17 @@ export function RecipeForm({ recipe }: { recipe?: RecipeFormPayload }) {
           value={value.content}
           onChange={(e) => setValue((v) => ({ ...v, content: e.target.value }))}
         ></textarea>
+      </fieldset>
+
+      <fieldset className="fieldset">
+        <legend className="fieldset-legend">Source</legend>
+        <input
+          className="input w-full"
+          type="text"
+          name="source"
+          value={value.source}
+          onChange={(e) => setValue((v) => ({ ...v, source: e.target.value }))}
+        />
       </fieldset>
 
       <button className="btn self-end" type="submit" disabled={!isValid(value)}>

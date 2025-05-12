@@ -22,6 +22,7 @@ model Recipe {
   timePrep    Int
   timeCook    Int
   ingredients Ingredient[]
+  source      String       @default("")
 }
 
 model Ingredient {

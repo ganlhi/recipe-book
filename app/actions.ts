@@ -15,6 +15,7 @@ export async function updateRecipe(recipe: RecipeFormPayload) {
         persons: recipe.persons,
         timeCook: recipe.timeCook,
         timePrep: recipe.timePrep,
+        source: recipe.source,
         ingredients: {
           createMany: {
             data: recipe.ingredients.filter((i) => !i.id),
@@ -37,6 +38,7 @@ export async function updateRecipe(recipe: RecipeFormPayload) {
         persons: recipe.persons,
         timeCook: recipe.timeCook,
         timePrep: recipe.timePrep,
+        source: recipe.source,
         ingredients: {
           createMany: {
             data: recipe.ingredients,

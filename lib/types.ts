@@ -18,7 +18,7 @@ export type RecipesListViewMode = 'table' | 'grid';
 
 export type RecipeFormPayload = Pick<
   Recipe,
-  'timePrep' | 'timeCook' | 'persons' | 'content' | 'name'
+  'timePrep' | 'timeCook' | 'persons' | 'content' | 'name' | 'source'
 > & {
   id?: Recipe['id'];
   ingredients: Array<Pick<Ingredient, 'name' | 'amount' | 'unit'> & { id?: Ingredient['id'] }>;
