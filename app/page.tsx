@@ -8,6 +8,7 @@ import { clsx } from 'clsx';
 import Link from 'next/link';
 import { Filters } from '@/app/components/Filters';
 import prisma from '@/lib/prisma';
+import { SignedIn } from '@clerk/nextjs';
 
 export default async function Home(props: { searchParams: Promise<SearchParams> }) {
   const searchParams = await props.searchParams;
@@ -44,9 +45,11 @@ export default async function Home(props: { searchParams: Promise<SearchParams> 
               <span className="block h-0 w-0 overflow-hidden">Bascule vue grille/table</span>
             </label>
           </Link>
-          <Link href="/recipe/new" className="btn btn-sm">
-            <IconPlus /> Ajouter une recette
-          </Link>
+          <SignedIn>
+            <Link href="/recipe/new" className="btn btn-sm">
+              <IconPlus /> Ajouter une recette
+            </Link>
+          </SignedIn>
         </div>
         <div className="max-w-5xl">
           <RecipesList filters={filters} viewMode={viewMode} />
